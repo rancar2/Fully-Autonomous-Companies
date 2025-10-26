@@ -1,0 +1,23 @@
+# config.yml for the Scaffold Agent
+
+# This file contains configuration options that the Scaffold Agent can use to customize its behavior.
+
+# The default Rails version to use when scaffolding a new application.
+rails_version: 8.0.0
+
+# The default database adapter to use.
+# Supported adapters: sqlite3, postgresql, mysql
+database_adapter: sqlite3
+
+# A list of common gems to include in the Gemfile of the generated application.
+gems:
+  - devise
+  - friendly_id
+  - sidekiq
+  - pagy
+
+# The default set of features to include in the generated application.
+features:
+  - authentication
+  - background_jobs
+  - api

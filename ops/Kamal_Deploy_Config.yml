@@ -1,0 +1,51 @@
+# deploy.yml
+
+# This is a sample Kamal deployment configuration for the meta-SaaS platform.
+# In a real implementation, this would be populated with the actual server details and configuration.
+
+service: meta-saas
+
+image: your-docker-registry/meta-saas
+
+servers:
+  web:
+    hosts:
+      - 192.168.1.1
+    labels:
+      traefik.http.routers.meta-saas.rule: Host(`your-domain.com`)
+
+registry:
+  server: your-docker-registry
+  username: your-username
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  clear:
+    DB_HOST: 192.168.1.2
+    RAILS_MASTER_KEY: 
+  secret:
+    - RAILS_MASTER_KEY
+
+# Accessories
+accessories:
+  db:
+    image: postgres:16
+    host: 192.168.1.2
+    port: 5432
+    env:
+      clear:
+        POSTGRES_DB: meta_saas_production
+      secret:
+        - POSTGRES_PASSWORD
+    files:
+      - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
+    directories:
+      - data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    host: 192.168.1.3
+    port: 6379
+    directories:
+      - data:/data
